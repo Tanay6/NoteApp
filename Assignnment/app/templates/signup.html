@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title="SignUp Page"</title>
+</head>
+<body>
+<h1>Sign Up</h1>
+    <form action="" method="post" novalidate>
+        {{ form.csrf_token() }}
+        {{ form.submit }}
+        <p>
+            {{ form.FirstName.label }}<br>
+            {{ form.FirstName(size=32) }}
+        </p>
+        <p>
+            {{ form.LastName.label }}<br>
+            {{ form.LastName(size=32) }}
+        </p>
+        <p>
+            {{ form.Email.label }}<br>
+            {{ form.Email(size=32) }}
+        </p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>
+            {{ form.password2.label }}<br>
+            {{ form.password2(size=32) }}
+        </p>
+        <button type="submit">Sign Up</button>
+        <!--&lt;!&ndash;<button onclick="SignUp()">Click me</button>&ndash;&gt;-->
+        <!--<input type=button onClick="parent.location.href='/'" value='Sign Up'>-->
+    </form>
+
+</body>
+</html>

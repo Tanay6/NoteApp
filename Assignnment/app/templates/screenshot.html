@@ -1,0 +1,83 @@
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+    <!--&lt;!&ndash;<meta charset="UTF-8">&ndash;&gt;-->
+    <!--&lt;!&ndash;<title>Title</title>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html>&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;<script type="text/javascript" src="jquery.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;<script type="text/javascript" src="html2canvas.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;<script>&ndash;&gt;-->
+<!--&lt;!&ndash;function take_screenshot()&ndash;&gt;-->
+<!--&lt;!&ndash;{&ndash;&gt;-->
+ <!--&lt;!&ndash;html2canvas(document.body, {&ndash;&gt;-->
+  <!--&lt;!&ndash;onrendered: function(canvas)&ndash;&gt;-->
+  <!--&lt;!&ndash;{&ndash;&gt;-->
+    <!--&lt;!&ndash;var img = canvas.toDataURL()&ndash;&gt;-->
+    <!--&lt;!&ndash;$.post("save_screenshot.php", {data: img}, function (file){&ndash;&gt;-->
+	<!--&lt;!&ndash;window.location.href =  "save_screenshot.php?file="+ file&ndash;&gt;-->
+    <!--&lt;!&ndash;});&ndash;&gt;-->
+  <!--&lt;!&ndash;}&ndash;&gt;-->
+ <!--&lt;!&ndash;});&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+<!--&lt;!&ndash;</script>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="wrapper">&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="screenshot_div">&ndash;&gt;-->
+  <!--&lt;!&ndash;<button type="button" onclick="take_screenshot()">Take Screenshot</button>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Screenshot using html2canvas</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Tutorial: How to take screenshot</h1>
+    <!--<a href = "{{url_for('home')}}"> home</a>-->
+    <div id="capture" style="padding: 10px; background: #f5da55">
+        <h4 style="color: #000";"text-align: center; ">Hello C-Sharpcorner User!!</h4>
+    </div>
+    <div style="margin-top: 50px;text-align: center;" > <button id="take_screenshoot">Take Screenshot</button> </div>
+    <script type="text/javascript">
+        var dataURL = {};
+        $('#take_screenshoot').click(function() {
+            html2canvas(document.querySelector("#capture")).then(canvas => {
+                document.body.appendChild(canvas);
+                //console.log(canvas.toDataURL());
+                dataURL = canvas.toDataURL();
+                post_data(dataURL);
+            });
+        });
+
+        function post_data(imageURL) {
+            //console.log(imageURL);
+            $.ajax({
+                url: '/home/',
+                type: "POST",
+                data: {
+                    image: imageURL
+                },
+                dataType: "html",
+                success: function() {
+                    alert(‘Success!!’);
+                    location.reload();
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

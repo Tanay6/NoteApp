@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!--<script src="app.js" charset="utf-8"></script>-->
+</head>
+<body>
+<table border="1" cellpadding="5" cellspacing="5">
+    <tr>
+        <th>Email</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Last Login Time</th>
+    </tr>
+    {% for row in data %}
+        <tr>
+            <td><a href="/home/{{row.id}}">{{row.email}}</a></td>
+            <td>{{row.firstname}}</td>
+            <td>{{row.lastname}}</td>
+            <td>{{row.last_time}}</td>
+        </tr>
+    {% endfor %}
+</table>
+<!--style="padding: 10px; background: #f5da55"-->
+<a href = "{{url_for('logout')}}"> <b>Log Out</b></a>
+<div style="margin-top: 50px; text-align: center;"> <button id="take_screenshoot"><b>Take Screenshot</b></button> </div>
+
+
+
+<script type="text/javascript">
+        //var dataURL = {};
+        $('#take_screenshoot').click(function () {
+            html2canvas(document.querySelector("body")).then(canvas => {
+                //document.body.appendChild(canvas);
+                //document.querySelector('canvas').style.display='none';
+                //document.getElementBy('body').disable = true;
+                //dataURL.appendChild(canvas)
+                //console.log(canvas)
+                var dataURL = canvas.toDataURL();
+                //canvas.style = 'display:none';
+               // console.log(canvas)
+                console.log(dataURL)
+                console.log('---------------- sending ----------------');
+               // dataURL = canvas.toDataURL();
+               post_data(dataURL);
+            });
+        });
+
+        function post_data(imageURL) {
+            console.log(imageURL);
+            $.ajax({
+                type: "POST",
+                url: "/AjaxHandler/",
+                beforeSend: function(request) {
+                    request.setRequestHeader("Content-Type", "application/json");
+                },
+                data: JSON.stringify({
+                    image: imageURL
+                }),
+                dataType: "json",
+                success: function() {
+                    alert('Success!!');
+                    location.reload();
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
